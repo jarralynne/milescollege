@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miles College - Prior Learning Assessment Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #5C2E91;
+            --secondary-gold: #FDB913;
+            --secondary-purple: #9B7EBD;
+            --dark-purple: #3E1F61;
+            --charcoal: #4A4A4A;
+            --light-cream: #FFF8F0;
+            --text-dark: #2C1810;
+            --success-green: #2D5F3F;
+            --warning-amber: #D97B29;
+            --border-color: #D4C5B9;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: linear-gradient(135deg, var(--light-cream) 0%, #FFF 100%);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
+            padding: 40px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 10px 40px rgba(92, 46, 145, 0.2);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(253, 185, 19, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo-container {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-family: 'Crimson Pro', serif;
+            color: white;
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--secondary-gold);
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        .disclaimer-banner {
+            background: linear-gradient(135deg, #FFF3CD 0%, #FFE5A0 100%);
+            border: 3px solid var(--warning-amber);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(217, 123, 41, 0.3);
+        }
+
+        .disclaimer-banner h3 {
+            font-family: 'Crimson Pro', serif;
+            color: var(--dark-purple);
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .disclaimer-banner p {
+            color: var(--dark-purple);
+            font-weight: 500;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 15px 30px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            top: 2px;
+        }
+
+        .nav-tab:hover {
+            background: var(--light-cream);
+            border-color: var(--primary-purple);
+        }
+
+        .nav-tab.active {
+            background: var(--primary-purple);
+            color: white;
+            border-color: var(--primary-purple);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2 {
+            font-family: 'Crimson Pro', serif;
+            color: var(--primary-purple);
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--secondary-gold);
+            padding-bottom: 10px;
+        }
+
+        .card h3 {
+            font-family: 'Crimson Pro', serif;
+            color: var(--dark-purple);
+            font-size: 1.5em;
+            margin: 20px 0 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-purple);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Source Sans Pro', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 3px rgba(92, 46, 145, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
+            color: white;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(92, 46, 145, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(92, 46, 145, 0.4);
+        }
+
+        .button-secondary {
+            background: linear-gradient(135deg, var(--secondary-gold) 0%, #E5A500 100%);
+            color: var(--dark-purple);
+        }
+
+        .button-remove {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            padding: 8px 20px;
+            font-size: 0.9em;
+        }
+
+        .course-request-box {
+            background: var(--light-cream);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .course-request-box .course-header {
+            background: var(--primary-purple);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: -25px -25px 20px -25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-request-box h4 {
+            color: white;
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        .course-display {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-gold);
+            margin: 15px 0;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--primary-purple);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            border-left: 5px solid #1976D2;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3CD 0%, #FFE5A0 100%);
+            border-left: 5px solid var(--warning-amber);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #D4EDDA 0%, #C3E6CB 100%);
+            border-left: 5px solid var(--success-green);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(92, 46, 145, 0.3);
+        }
+
+        .contact-card h3 {
+            font-family: 'Crimson Pro', serif;
+            color: var(--secondary-gold);
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .contact-card p {
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .contact-card a {
+            color: var(--secondary-gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .nav-tab {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1>Prior Learning Assessment</h1>
+                    <p>Illustrative Planning Tool for Academic Credit</p>
+                </div>
+                <div class="logo-container">
+                    <img src="miles_college_logo.png" alt="Miles College Logo" style="height: 80px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display: none; font-family: 'Crimson Pro', serif; color: var(--primary-purple); font-weight: 700; font-size: 1.2em; text-align: center;">
+                        MILES COLLEGE<br><span style="font-size: 0.6em;">EST. 1898</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="disclaimer-banner">
+            <h3>⚠️ Important Notice - Planning Tool Only</h3>
+            <p><strong>This is an illustrative process for planning purposes only.</strong></p>
+            <p>All official acceptance of credits are processed through Academic Affairs and Academic Records.</p>
+            <p style="margin-top: 15px;"><strong>Standard Evaluation Time:</strong> Approximately 2 weeks per 3-credit hour evaluation</p>
+        </div>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="switchTab('overview')">Overview</div>
+            <div class="nav-tab" onclick="switchTab('request')">Request Credit</div>
+            <div class="nav-tab" onclick="switchTab('contact')">Contact & Next Steps</div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="card">
+                <h2>Welcome to Prior Learning Assessment Planning</h2>
+                
+                <div class="info-box">
+                    <h3>What is Prior Learning Assessment (PLA)?</h3>
+                    <p>PLA allows you to potentially earn college credit for knowledge gained through work, military service, certifications, and life experiences.</p>
+                </div>
+
+                <div class="success-box">
+                    <h3>✨ New: Request Multiple Courses at Once!</h3>
+                    <p>You can now request credit for up to <strong>6 courses</strong> on the same form. This saves you time if you have learning experiences that cover multiple courses.</p>
+                </div>
+
+                <div class="warning-box">
+                    <h3>Important Policy Information</h3>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Maximum Credits:</strong> Up to 30 semester hours through alternative credit</li>
+                        <li><strong>Residency Requirement:</strong> Must complete minimum 30 hours at Miles College</li>
+                        <li><strong>Official Transcripts Required:</strong> All prior college work must have official transcripts sent to Miles College</li>
+                    </ul>
+                </div>
+
+                <button onclick="switchTab('request')" style="margin-top: 20px;">Start Your Credit Planning</button>
+            </div>
+        </div>
+
+        <!-- Request Credit Tab -->
+        <div id="request" class="tab-content">
+            <div class="card">
+                <h2>Credit Request Planning Form</h2>
+                
+                <h3>Student Information</h3>
+                
+                <div class="form-group">
+                    <label>Your Name: *</label>
+                    <input type="text" id="studentName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Student ID (if you have one):</label>
+                    <input type="text" id="studentId">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address: *</label>
+                    <input type="email" id="studentEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number:</label>
+                    <input type="tel" id="studentPhone">
+                </div>
+
+                <div class="form-group">
+                    <label>Current/Intended Major:</label>
+                    <select id="major">
+                        <option value="">Select your major...</option>
+                        <option value="accounting">Accounting</option>
+                        <option value="biology">Biology</option>
+                        <option value="business">Business Administration</option>
+                        <option value="criminal-justice">Criminal Justice</option>
+                        <option value="psychology">Psychology</option>
+                        <option value="social-work">Social Work</option>
+                        <option value="interdisciplinary">Interdisciplinary Studies</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <h3>Prior College Experience</h3>
+                
+                <div class="form-group">
+                    <label>Have you attended any college previously? *</label>
+                    <select id="priorCollege" onchange="togglePriorCollegeInfo()">
+                        <option value="">Select...</option>
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+
+                <div id="priorCollegeInfo" style="display: none;">
+                    <div class="warning-box">
+                        <h4>📋 Official Transcripts Required</h4>
+                        <p><strong>You must request official transcripts from ALL previously attended institutions to be sent to:</strong></p>
+                        <p style="margin-top: 10px; margin-left: 20px;">
+                            <strong>Miles College<br>
+                            Office of Academic Records<br>
+                            5500 Myron Massey Blvd<br>
+                            Fairfield, AL 35064</strong>
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How many college credits have you earned? (Estimate)</label>
+                        <select id="priorCredits">
+                            <option value="">Select...</option>
+                            <option value="1-15">1-15 credits</option>
+                            <option value="16-30">16-30 credits</option>
+                            <option value="31-60">31-60 credits</option>
+                            <option value="61-90">61-90 credits</option>
+                            <option value="91+">91+ credits</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>List all colleges/universities attended:</label>
+                        <textarea id="institutionsAttended"></textarea>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 40px;">Course Credit Requests (Up to 6 Courses)</h3>
+                <p style="margin-bottom: 20px; color: var(--charcoal);">You may request credit for multiple courses. Each course needs its own learning experience description and evidence.</p>
+
+                <div id="courseRequestsContainer">
+                    <!-- Course requests will be added here dynamically -->
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <button onclick="addCourseRequest()" class="button-secondary" id="addCourseBtn">
+                        ➕ Add Course Request
+                    </button>
+                    <p style="margin-top: 10px; color: var(--charcoal);">
+                        Courses added: <strong><span id="courseCount">0</span>/6</strong>
+                    </p>
+                </div>
+
+                <div class="warning-box">
+                    <h4>Before Submitting:</h4>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Add at least ONE course request</li>
+                        <li>Complete all required fields for each course</li>
+                        <li>If prior college: request official transcripts</li>
+                        <li>Gather supporting documentation</li>
+                    </ul>
+                </div>
+
+                <button onclick="submitAllRequests()" style="margin-top: 20px;">📧 Submit All Requests</button>
+                <button onclick="saveDraft()" class="button-secondary" style="margin-left: 10px;">💾 Save Draft</button>
+            </div>
+        </div>
+
+        <!-- Contact Tab -->
+        <div id="contact" class="tab-content">
+            <div class="card">
+                <h2>Next Steps & Contact Information</h2>
+                
+                <div class="info-box">
+                    <h3>After You Submit</h3>
+                    <ol style="margin-left: 30px; margin-top: 10px; line-height: 2;">
+                        <li>You'll receive email confirmation</li>
+                        <li>Dr. Agee will review within 1 week</li>
+                        <li>Request official transcripts if you attended college previously</li>
+                        <li>Standard evaluation: ~2 weeks per 3-credit course</li>
+                        <li>Official processing through Academic Records</li>
+                    </ol>
+                </div>
+
+                <div class="warning-box">
+                    <h3>📋 Required: Official Transcripts</h3>
+                    <p><strong>If you attended ANY college previously:</strong></p>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <strong>Miles College<br>
+                        Office of Academic Records<br>
+                        5500 Myron Massey Blvd<br>
+                        Fairfield, AL 35064</strong>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <h3>📞 PLA Coordinator</h3>
+                    <p><strong>Dr. J. Agee</strong></p>
+                    <p>Liaison to Credit for Prior Learning Committee</p>
+                    <p>Associate Professor of Psychology & Criminal Justice</p>
+                    <p>Co-Coordinator of Interdisciplinary Studies</p>
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.3);">
+                        <p>📧 Email: <a href="mailto:jagee@miles.edu">jagee@miles.edu</a></p>
+                        <p>☎️ Phone: <a href="tel:2059291530">(205) 929-1530</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Course Database  
+        const courses = [
+            {code: "EN 101", name: "English Composition I", credits: 3, description: "Fundamentals of grammar and writing skills."},
+            {code: "EN 102", name: "English Composition II", credits: 3, description: "Continued improvement of reading and writing skills."},
+            {code: "MA 101", name: "Intermediate Algebra", credits: 3, description: "Development of algebraic skills."},
+            {code: "PSY 201", name: "General Psychology", credits: 3, description: "Study of psychology from modern viewpoint."},
+            {code: "PSY 220", name: "Social Psychology", credits: 3, description: "Factors affecting individual and group behavior."},
+            {code: "PSY 301", name: "Educational Psychology", credits: 3, description: "Psychology of teaching and learning."},
+            {code: "PSY 310", name: "Abnormal Psychology", credits: 3, description: "Classification, causes, and treatment of psychological disorders."},
+            {code: "CJ 201", name: "Introduction to Criminal Justice", credits: 3, description: "Overview of criminal justice system."},
+            {code: "CJ 310", name: "Criminology", credits: 3, description: "Theories of crime causation."},
+            {code: "CJ 320", name: "Criminal Law", credits: 3, description: "Elements of crimes and defenses."},
+            {code: "GB 310", name: "Principles of Management", credits: 3, description: "Management functions and organizational behavior."},
+            {code: "GB 340", name: "Principles of Marketing", credits: 3, description: "Marketing concepts and consumer behavior."},
+            {code: "AC 211", name: "Principles of Accounting I", credits: 3, description: "Fundamental accounting principles."},
+            {code: "CIS 110", name: "Computer Literacy", credits: 3, description: "Introduction to computers and software applications."},
+            {code: "CIS 260", name: "Introduction to Programming", credits: 3, description: "Programming fundamentals."},
+            {code: "SWK 220", name: "Introduction to Social Work", credits: 3, description: "Overview of social work profession."},
+            {code: "BY 101", name: "General Biology I", credits: 3, description: "Introduction to biological sciences."},
+            {code: "SPE 111", name: "Fundamentals of Speech", credits: 3, description: "Effective oral communication skills."},
+            {code: "HUM 201", name: "Humanities", credits: 3, description: "Understanding humanity through art forms."},
+            {code: "PS 201", name: "Introduction to American Government", credits: 3, description: "American government structure and function."},
+            // Add more courses as needed
+        ];
+
+        let courseRequestCount = 0;
+        const MAX_COURSES = 6;
+
+        function togglePriorCollegeInfo() {
+            const select = document.getElementById('priorCollege');
+            const infoDiv = document.getElementById('priorCollegeInfo');
+            infoDiv.style.display = select.value === 'yes' ? 'block' : 'none';
+        }
+
+        function addCourseRequest() {
+            if (courseRequestCount >= MAX_COURSES) {
+                alert(`Maximum of ${MAX_COURSES} course requests allowed.`);
+                return;
+            }
+
+            courseRequestCount++;
+            updateCourseCount();
+
+            const container = document.getElementById('courseRequestsContainer');
+            const requestDiv = document.createElement('div');
+            requestDiv.className = 'course-request-box';
+            requestDiv.id = `courseRequest${courseRequestCount}`;
+            requestDiv.dataset.num = courseRequestCount;
+
+            requestDiv.innerHTML = `
+                <div class="course-header">
+                    <h4>Course Request #${courseRequestCount}</h4>
+                    <button onclick="removeCourseRequest(${courseRequestCount})" class="button-remove">✕ Remove</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Search for Course: *</label>
+                    <input type="text" class="course-search" data-num="${courseRequestCount}" placeholder="Type course code or name" oninput="filterCourses(${courseRequestCount})">
+                    <select class="course-select" data-num="${courseRequestCount}" size="6" onchange="displayCourseInfo(${courseRequestCount})" style="margin-top: 10px;">
+                        <option value="">-- Type to search --</option>
+                    </select>
+                </div>
+
+                <div class="course-display" id="courseInfo${courseRequestCount}" style="display: none;"></div>
+
+                <div id="evidenceSection${courseRequestCount}" style="display: none;">
+                    <div class="form-group">
+                        <label>How Have You Met This Course's Requirements? *</label>
+                        <textarea class="learning-experience" data-num="${courseRequestCount}" placeholder="Describe your learning experience for THIS specific course"></textarea>
+                    </div>
+
+                    <label>Evidence Types:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="ev-checkbox" data-num="${courseRequestCount}" value="Military Transcript">
+                            <span>Military Transcript</span>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="ev-checkbox" data-num="${courseRequestCount}" value="Certification">
+                            <span>Professional Certification</span>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="ev-checkbox" data-num="${courseRequestCount}" value="Work Experience">
+                            <span>Work Experience</span>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="ev-checkbox" data-num="${courseRequestCount}" value="Portfolio">
+                            <span>Work Portfolio</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label>Preferred Assessment Method: *</label>
+                        <select class="assessment-method" data-num="${courseRequestCount}">
+                            <option value="">Select...</option>
+                            <option value="portfolio">Portfolio Assessment</option>
+                            <option value="challenge">Challenge Exam</option>
+                            <option value="skills">Skills Demonstration</option>
+                            <option value="oral">Oral Examination</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(requestDiv);
+            filterCourses(courseRequestCount); // Initialize course list
+
+            if (courseRequestCount >= MAX_COURSES) {
+                document.getElementById('addCourseBtn').disabled = true;
+                document.getElementById('addCourseBtn').style.opacity = '0.5';
+            }
+        }
+
+        function removeCourseRequest(num) {
+            const requestDiv = document.getElementById(`courseRequest${num}`);
+            if (requestDiv) {
+                requestDiv.remove();
+                courseRequestCount--;
+                updateCourseCount();
+                
+                document.getElementById('addCourseBtn').disabled = false;
+                document.getElementById('addCourseBtn').style.opacity = '1';
+            }
+        }
+
+        function updateCourseCount() {
+            document.getElementById('courseCount').textContent = courseRequestCount;
+        }
+
+        function filterCourses(num) {
+            const searchInput = document.querySelector(`.course-search[data-num="${num}"]`);
+            const select = document.querySelector(`.course-select[data-num="${num}"]`);
+            
+            if (!searchInput || !select) return;
+
+            const searchTerm = searchInput.value.toLowerCase();
+            const filtered = courses.filter(course => 
+                course.code.toLowerCase().includes(searchTerm) ||
+                course.name.toLowerCase().includes(searchTerm)
+            );
+
+            select.innerHTML = '<option value="">-- Select a course --</option>';
+            filtered.forEach((course, index) => {
+                const option = document.createElement('option');
+                option.value = JSON.stringify(course);
+                option.textContent = `${course.code} - ${course.name}`;
+                select.appendChild(option);
+            });
+        }
+
+        function displayCourseInfo(num) {
+            const select = document.querySelector(`.course-select[data-num="${num}"]`);
+            const infoDiv = document.getElementById(`courseInfo${num}`);
+            const evidenceSection = document.getElementById(`evidenceSection${num}`);
+
+            if (!select.value) {
+                infoDiv.style.display = 'none';
+                evidenceSection.style.display = 'none';
+                return;
+            }
+
+            const course = JSON.parse(select.value);
+            infoDiv.innerHTML = `
+                <h4 style="color: var(--primary-purple);">${course.code} - ${course.name}</h4>
+                <p><strong>Credits:</strong> ${course.credits}</p>
+                <p><strong>Description:</strong> ${course.description}</p>
+            `;
+            infoDiv.style.display = 'block';
+            evidenceSection.style.display = 'block';
+        }
+
+        function submitAllRequests() {
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const priorCollege = document.getElementById('priorCollege').value;
+
+            if (!name || !email || !priorCollege) {
+                alert('Please complete all required student information fields');
+                return;
+            }
+
+            if (courseRequestCount === 0) {
+                alert('Please add at least one course request');
+                return;
+            }
+
+            // Collect all course requests
+            const requests = [];
+            const requestDivs = document.querySelectorAll('.course-request-box');
+            
+            requestDivs.forEach(div => {
+                const num = div.dataset.num;
+                const select = div.querySelector('.course-select');
+                const learningExp = div.querySelector('.learning-experience');
+                const assessmentMethod = div.querySelector('.assessment-method');
+
+                if (select && select.value) {
+                    const course = JSON.parse(select.value);
+                    const evidenceBoxes = div.querySelectorAll('.ev-checkbox:checked');
+                    const evidence = Array.from(evidenceBoxes).map(cb => cb.value);
+
+                    requests.push({
+                        course: course,
+                        learningExperience: learningExp?.value || '',
+                        evidence: evidence,
+                        assessmentMethod: assessmentMethod?.value || ''
+                    });
+                }
+            });
+
+            if (requests.length === 0) {
+                alert('Please complete at least one course request with all required fields');
+                return;
+            }
+
+            // Build email
+            let emailBody = `MILES COLLEGE PRIOR LEARNING ASSESSMENT REQUEST
+Planning Tool Submission
+
+STUDENT INFORMATION
+========================================
+Name: ${name}
+Student ID: ${document.getElementById('studentId').value || 'N/A'}
+Email: ${email}
+Phone: ${document.getElementById('studentPhone').value || 'N/A'}
+Major: ${document.getElementById('major').value || 'N/A'}
+Date: ${new Date().toLocaleDateString()}
+
+PRIOR COLLEGE
+========================================
+Attended: ${priorCollege}
+${priorCollege === 'yes' ? `Credits: ${document.getElementById('priorCredits').value}
+Institutions: ${document.getElementById('institutionsAttended').value}
+
+⚠️ OFFICIAL TRANSCRIPTS REQUIRED` : ''}
+
+========================================
+COURSE CREDIT REQUESTS (${requests.length} courses)
+========================================
+
+`;
+
+            requests.forEach((req, idx) => {
+                emailBody += `
+--- COURSE #${idx + 1} ---
+Course: ${req.course.code} - ${req.course.name}
+Credits: ${req.course.credits}
+
+Learning Experience:
+${req.learningExperience}
+
+Evidence: ${req.evidence.join(', ') || 'None specified'}
+Assessment Method: ${req.assessmentMethod || 'Not specified'}
+
+`;
+            });
+
+            emailBody += `
+========================================
+IMPORTANT REMINDERS
+========================================
+✓ Illustrative planning tool only
+✓ Official approval through Academic Affairs
+✓ ~2 weeks per 3-credit evaluation
+✓ Official transcripts required if prior college
+
+Submitted: ${new Date().toLocaleString()}
+`;
+
+            const subject = encodeURIComponent(`PLA Request - ${requests.length} Courses - ${name}`);
+            const body = encodeURIComponent(emailBody);
+            const recipients = 'strategicops@miles.edu,jagee@miles.edu';
+
+            window.location.href = `mailto:${recipients}?subject=${subject}&body=${body}`;
+
+            setTimeout(() => {
+                alert(`✅ Email opened with ${requests.length} course request(s)!\n\nPlease review and click Send.\n\nYou'll receive confirmation within 1 week.`);
+                switchTab('contact');
+            }, 1000);
+        }
+
+        function saveDraft() {
+            localStorage.setItem('miles_pla_draft', JSON.stringify({
+                studentName: document.getElementById('studentName').value,
+                studentEmail: document.getElementById('studentEmail').value,
+                savedDate: new Date().toISOString()
+            }));
+            alert('Draft saved!');
+        }
+
+        function loadDraft() {
+            const saved = localStorage.getItem('miles_pla_draft');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('studentName').value = data.studentName || '';
+                document.getElementById('studentEmail').value = data.studentEmail || '';
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        window.onload = function() {
+            loadDraft();
+            addCourseRequest(); // Start with one course request
+        };
+    </script>
+</body>
+</html>
